@@ -1,0 +1,8 @@
+.add_table{
+    display: inline-block;
+    border : '1';
+    justify-content: left;
+}
+.table_form{
+    display: inline;
+}

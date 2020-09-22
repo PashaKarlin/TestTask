@@ -1,48 +1,54 @@
 import React, { useState } from 'react'
+// import propTypes from 'prop-types'
+import '../styles/form.scss'
 
 
-const Form = ({addPerson}) => {
+const Form = ({ addPerson }) => {
 
     const [name, setName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [surname, setSurname] = useState('');
     const [phone, setPhone] = useState('');
     const [age, setAge] = useState('');
-    // const [submit, isSubmit] = useState(false)
-
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        addPerson(name,lastName,phone,age)
+        addPerson(name, surname, phone, age)
         setName('');
-        setLastName('')
+        setSurname('')
         setPhone('')
         setAge('')
     }
     return (
         <div>
-            <form>
-                <div>
-                    <label>Name :</label>
-                    <input name='name' value={name} onChange={(e) => setName(e.target.value)} />
-                </div>
-                <div>
-                    <label>Last Name :</label>
-                    <input name='lastName' value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                </div>
-                <div>
-                    <label>Phone Number :</label>
-                    <input name='phone' value={phone} onChange={(e) => setPhone(e.target.value)} />
-                </div>
-                <div>
-                    <label>Age : </label>
-                    <input name='age' value={age} onChange={(e) => setAge(e.target.value)} />
-                </div>
+            <form className='form'>
+                <fieldset className='fieldset'>
+                    <div className='field'>
+                        <label>Name :</label>
+                        <input name='name' type='text' value={name} placeholder='ex: Pasha' onChange={(e) => setName(e.target.value)} />
+                    </div>
+                    <div className='field'>
+                        <label>Surname :</label>
+                        <input name='lastName' type='text' value={surname} placeholder='ex: Karlin' onChange={(e) => setSurname(e.target.value)} />
+                    </div>
+                    <div className='field'>
+                        <label>Phone Number :</label>
+                        <input name='phone' type='text' value={phone} placeholder='ex: +380636074154' onChange={(e) => setPhone(e.target.value)} />
+                    </div>
+                    <div className='field'>
+                        <label>Age : </label>
+                        <input name='age' type='text' value={age} placeholder='ex: 20' onChange={(e) => setAge(e.target.value)} />
+                    </div>
+                    <button type='submit' onClick={handleSubmit}>
+                        Submit
+                    </button>
+                </fieldset>
             </form>
-            <button type='submit' onClick = {handleSubmit}>
-                Submit
-            </button>
+
         </div>
     )
 };
 
+// Form.propTypes = {
+
+// }
 export default Form;

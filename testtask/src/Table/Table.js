@@ -1,26 +1,40 @@
 import React, { useState } from 'react'
 import Form from '../Form/Form'
+import '../styles/table.css'
 
 
 const Table = () => {
     const [people, setPeople] = useState([
-        { name: '', lastName: '', phone: '', age: '' }
+        { name: '', surname: '', phone: '', age: '' }
     ])
-
-    const addPerson = (name, lastName, phone, age) => {
-        setPeople([...people, { name, lastName, phone, age }])
+    
+    const addPerson = (name, surname, phone, age) => {
+        setPeople([...people, { name, surname, phone, age }])
     }
     return (
-        <div>
+        <div className='table_form'>
             <Form addPerson={addPerson} />
-            <div>
-                {'Name LastName Phone Age'}
+            <div className='add_table'>
+                <table>
+                    <tr className='row_block'>
+                        <th className='row'>Select</th>
+                        <th className='row'>Name</th>
+                        <th className='row'>Surname</th>
+                        <th className='row'>Phone</th>
+                        <th className='row'>Age</th>
+                    </tr>
+                    {people.map(person => {
+                        if (person.name !== ''){
+                            return (
+                                <tr><td>{person.name}</td><td>{person.surname}</td><td>{person.phone}</td><td>{person.age}</td></tr>
+                            )
+                        }
+                        
+                    })}
+                </table>
+
             </div>
-            {people.map(person => {
-                return (
-                    <div>{person.name + ' ' + person.lastName  + ' ' +  person.phone  + ' ' +  person.age}</div>
-                )
-            })}
+
         </div>
     )
 }
