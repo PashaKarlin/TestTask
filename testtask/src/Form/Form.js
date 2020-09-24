@@ -4,19 +4,22 @@ import '../styles/form.scss'
 
 
 const Form = ({ addPerson }) => {
-
+    const [id,setId] = useState(1)
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [phone, setPhone] = useState('');
     const [age, setAge] = useState('');
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        addPerson(name, surname, phone, age)
+        e.preventDefault();
+        addPerson(name, surname, phone, age, id)
         setName('');
-        setSurname('')
-        setPhone('')
-        setAge('')
+        setSurname('');
+        setPhone('');
+        setAge('');
+        let counter = id + 1;
+        setId(counter);
+        console.log(id)
     }
     return (
         <div>
@@ -38,7 +41,7 @@ const Form = ({ addPerson }) => {
                         <label>Age : </label>
                         <input name='age' type='text' value={age} placeholder='ex: 20' onChange={(e) => setAge(e.target.value)} />
                     </div>
-                    <button type='submit' onClick={handleSubmit}>
+                    <button type='submit' onClick={handleSubmit} disabled ={false}>
                         Submit
                     </button>
                 </fieldset>
