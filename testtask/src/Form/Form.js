@@ -19,7 +19,6 @@ const Form = ({ addPerson }) => {
         setAge('');
         let counter = id + 1;
         setId(counter);
-        console.log(id)
     }
     return (
         <div>
