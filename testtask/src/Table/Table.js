@@ -1,23 +1,37 @@
 import React, { useState } from 'react'
 import Form from '../Form/Form'
 import '../styles/table.css'
+import TableItem from '../TableItem/TableItem'
+import { v4 as uuidv4 } from 'uuid';
 
 
 const Table = () => {
+    const [people, setPeople] = useState(JSON.parse(localStorage.getItem('people')) || [])
+    console.log(people)
 
-    const [people, setPeople] = useState([])
-
-    const addPerson = (name, surname, phone, age, id) => {
-        setPeople([...people, { name, surname, phone, age, id, status: false }])
+    const setToLocalStorage = (localStoragePeople) => {
+        localStorage.setItem('people', JSON.stringify(localStoragePeople))
     }
-    let deletePerson = () => {
-        people.map(item => {
-            if(item.status === true) {
-                console.log('deleted')
-            }else{
-                setPeople(item)
-            }
-        })
+    const addPerson = ({ name, surname, phone, age, id }) => {
+        const listOfPeople = [...people, { name, surname, phone, age, id, status: false }]
+        setPeople(listOfPeople)
+        setToLocalStorage(listOfPeople);
+    }
+    const removePerson = (id) => {
+        const trueListOfPeople = people.filter(item => id !== item.id)
+        setPeople(trueListOfPeople);
+        setToLocalStorage(trueListOfPeople)
+    }
+    const renderTableItem = (person) => {
+        return (
+            <TableItem
+                key={uuidv4()}
+                person={person}
+                setPeople={setPeople}
+                people={people}
+                removePerson={removePerson}
+            />
+        )
     }
     return (
         <div className='table_form'>
@@ -35,35 +49,7 @@ const Table = () => {
                             <th >Age</th>
                             <th> Delete</th>
                         </tr>
-                        {people.map(person => {
-                            if (person.name !== '') {
-                                return (
-                                    <tr>
-                                        <td>
-                                            <input type='checkbox'
-                                                checked={person.status}
-                                                onChange={(e) => {
-                                                    let checked = e.target.checked;
-                                                    setPeople(people.map(data => {
-                                                        if (person.id === data.id) {
-                                                            person.status = checked;
-                                                        }
-                                                        return data;
-                                                    }))
-                                                }}
-                                            />
-                                        </td>
-                                        <td>{person.name}</td>
-                                        <td>{person.surname}</td>
-                                        <td>{person.phone}</td>
-                                        <td>{person.age}</td>
-                                        <td>
-                                            <button className='delete_button' disabled={!person.status} onClick={() => deletePerson()}>Delete</button>
-                                        </td>
-                                    </tr>
-                                )
-                            }
-                        })}
+                        {people.map(renderTableItem)}
                     </tbody>
                 </table>
             </div>
