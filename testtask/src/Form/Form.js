@@ -17,12 +17,10 @@ const Form = ({ addPerson }) => {
     const [emptyAge, setEmptyAge] = useState(true)
   
 
-
-
     const handleSetName = (e) => {
         const value = e.target.value.trim().replace(/[^A-Za-zА-Яа-я]/g, '')
         setName(value)
-        if (e.target.value != '') {
+        if (e.target.value !== '') {
             setEmptyName(false)
         }else{
             setEmptyName(true)
@@ -31,7 +29,7 @@ const Form = ({ addPerson }) => {
     const handleSetSurname = (e) => {
         const value = e.target.value.trim().replace(/[^A-Za-zА-Яа-я]/g, '')
         setSurname(value)
-        if (e.target.value != '') {
+        if (e.target.value !== '') {
             setEmptySurname(false)
         }else{
             setEmptySurname(true)
@@ -40,7 +38,7 @@ const Form = ({ addPerson }) => {
     const handleSetPhone = (e) => {
         const value = e.target.value.trim().replace(/[\D]{1}/g, '')
         setPhone(value)
-        if (e.target.value != '') {
+        if (e.target.value !== '') {
             setEmptyPhone(false)
         }else{
             setEmptyPhone(true)
@@ -50,7 +48,7 @@ const Form = ({ addPerson }) => {
     const handleSetAge = (e) => {
         const value = e.target.value.trim().replace(/[\D]{1}/g, '')
         setAge(value)
-        if (e.target.value != '') {
+        if (e.target.value !== '') {
             setEmptyAge(false)
         }else{
             setEmptyAge(true)
@@ -82,7 +80,7 @@ const Form = ({ addPerson }) => {
                             value={name}
                             placeholder='ex: Pasha'
                             onChange={handleSetName}
-                            maxlength="15"
+                            maxLength="15"
                         />
                     </div>
 
@@ -94,7 +92,7 @@ const Form = ({ addPerson }) => {
                             value={surname}
                             placeholder='ex: Karlin'
                             onChange={handleSetSurname}
-                            maxlength="15"
+                            maxLength="15"
                         />
                     </div>
                     <div className='field'>
@@ -105,7 +103,7 @@ const Form = ({ addPerson }) => {
                             value={phone}
                             placeholder='ex: 380636074154'
                             onChange={handleSetPhone}
-                            maxlength='12'
+                            maxLength='12'
                         />
                     </div>
                     <div className='field'>
@@ -116,7 +114,7 @@ const Form = ({ addPerson }) => {
                             value={age}
                             placeholder='ex: 20'
                             onChange={handleSetAge}
-                            maxlength='2'
+                            maxLength='2'
                         />
                     </div>
                     <button type='submit' onClick={handleSubmit} disabled={false}>
