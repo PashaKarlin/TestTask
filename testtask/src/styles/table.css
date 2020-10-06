@@ -22,6 +22,9 @@ td, th {
 th {
     background: #b0e0e6;
 }
+.button_sort{
+    margin : 10px;
+}
 /* .delete_button{
     height : 40px;
     margin : 20px 0 0 20px;

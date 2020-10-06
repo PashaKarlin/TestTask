@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Form from '../Form/Form'
 import '../styles/table.css'
 import TableItem from '../TableItem/TableItem'
@@ -8,8 +8,7 @@ const numberTypes = ['phone', 'age']
 
 const Table = () => {
     const [people, setPeople] = useState(JSON.parse(localStorage.getItem('people')) || [])
-    const [type, setType] = useState('')
-
+    const [type, setType] = useState('unsorted')
     const setToLocalStorage = (localStoragePeople) => {
         localStorage.setItem('people', JSON.stringify(localStoragePeople))
     }
@@ -34,10 +33,9 @@ const Table = () => {
             />
         )
     }
+    
     const sortirovka = () => {
-        if (!type) {
-            return people;
-        } else {
+        if (type !== 'unsorted'){
             return people.sort((a, b) => {
                 const isNumberType = numberTypes.includes(type)
                 const aObj = getTruthField(isNumberType, a)
@@ -46,16 +44,20 @@ const Table = () => {
                 if (aObj < bObj) return -1
                 return 0;
             })
+        }else{
+            return people
         }
     }
 
-    const getTruthField = (isNumberType, object) => {
-        return isNumberType ? +object[type] : object[type].toLowerCase()
+    const getTruthField = (isNumberType, object) => {          
+        return isNumberType ? +object[type] : object[type]
     }
 
     const handleChangeSortType = (e) => {
-        setType(e.target.name)
+        setType(e.target.value);
     }
+
+
 
     return (
         <div className='table_form'>
@@ -67,37 +69,26 @@ const Table = () => {
                     <tbody>
                         <tr className='row_block'>
                             <th >Select</th>
-                            <th >
-                                Name
-                            </th>
-                            <th >
-                                Surname
-                            </th>
-                            <th >
-                                Phone
-                            </th>
-                            <th >
-                                Age
-                            </th>
-                            <th> Delete</th>
+                            <th >Name</th>
+                            <th >Surname</th>
+                            <th >Phone</th>
+                            <th >Age</th>
+                            <th >Delete</th>
                         </tr>
-                        {sortirovka().map(renderTableItem)}
+                        {(type === 'reset') ? people.map(renderTableItem) : sortirovka().map(renderTableItem)}
                     </tbody>
                 </table>
-                <button name='name' activeClassName='button_style' onClick={handleChangeSortType}>
+                <button value='name' className = 'button_sort' onClick={handleChangeSortType}>
                     Sort By Name
                 </button>
-                <button name='surname' onClick={handleChangeSortType}>
+                <button value='surname' className = 'button_sort' onClick={handleChangeSortType}>
                     Sort By Surname
                 </button>
-                <button name='phone' onClick={handleChangeSortType}>
+                <button value='phone' className = 'button_sort' onClick={handleChangeSortType}>
                     Sort By Phone
                 </button>
-                <button name='age' onClick={handleChangeSortType}>
+                <button value='age' className = 'button_sort' onClick={handleChangeSortType}>
                     Sort By Age
-                </button>
-                <button name='' onClick={handleChangeSortType}>
-                    UnSorted
                 </button>
             </div>
 
