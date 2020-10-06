@@ -23,9 +23,10 @@ input[type = 'text']{
 .form{
   width :100%;
   display: flex;
-  margin: 20px;
+  margin: 20px 20px 20px 0;
   justify-content: left;
 }
+
 .field{
   clear: both;
   text-align: right;

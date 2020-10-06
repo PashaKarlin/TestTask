@@ -1,11 +1,9 @@
 .table_item{
-    width: 50%;
+    width: 75%;
 }
 .table_form { 
     display: flex;
-}
-.row{
-    margin : 50px;
+    justify-content: space-around;
 }
 .table_border{
     border: 1px solid black;
@@ -24,6 +22,9 @@ th {
 }
 .button_sort{
     margin : 10px;
+}
+.form_item{
+    width : 30%
 }
 /* .delete_button{
     height : 40px;

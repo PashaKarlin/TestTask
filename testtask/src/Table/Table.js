@@ -50,7 +50,7 @@ const Table = () => {
     }
 
     const getTruthField = (isNumberType, object) => {          
-        return isNumberType ? +object[type] : object[type]
+        return isNumberType ? +object[type] : object[type].toLowerCase()
     }
 
     const handleChangeSortType = (e) => {
@@ -61,7 +61,7 @@ const Table = () => {
 
     return (
         <div className='table_form'>
-            <div >
+            <div className = 'form_item'>
                 <Form addPerson={addPerson} />
             </div>
             <div className='table_item'>
