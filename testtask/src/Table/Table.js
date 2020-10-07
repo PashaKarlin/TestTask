@@ -8,7 +8,9 @@ const numberTypes = ['phone', 'age']
 
 const Table = () => {
     const [people, setPeople] = useState(JSON.parse(localStorage.getItem('people')) || [])
-    const [type, setType] = useState('unsorted')
+    const sortedArrayOfPeople = [...people]
+    const [sorted,setSorted] = useState(false)
+    const [type, setType] = useState('')
     const setToLocalStorage = (localStoragePeople) => {
         localStorage.setItem('people', JSON.stringify(localStoragePeople))
     }
@@ -33,35 +35,34 @@ const Table = () => {
             />
         )
     }
-    
+
     const sortirovka = () => {
-        if (type !== 'unsorted'){
-            return people.sort((a, b) => {
+        return (
+            sortedArrayOfPeople.sort((a, b) => {
                 const isNumberType = numberTypes.includes(type)
                 const aObj = getTruthField(isNumberType, a)
                 const bObj = getTruthField(isNumberType, b)
                 if (aObj > bObj) return 1
                 if (aObj < bObj) return -1
                 return 0;
-            })
-        }else{
-            return people
-        }
+            }))
+        
     }
-
-    const getTruthField = (isNumberType, object) => {          
+    const getTruthField = (isNumberType, object) => {
         return isNumberType ? +object[type] : object[type].toLowerCase()
     }
-
     const handleChangeSortType = (e) => {
         setType(e.target.value);
+        setSorted(true)
     }
-
+    const handleUnsort = () => {
+        setSorted(false)
+    }
 
 
     return (
         <div className='table_form'>
-            <div className = 'form_item'>
+            <div className='form_item'>
                 <Form addPerson={addPerson} />
             </div>
             <div className='table_item'>
@@ -75,20 +76,24 @@ const Table = () => {
                             <th >Age</th>
                             <th >Delete</th>
                         </tr>
-                        {(type === 'reset') ? people.map(renderTableItem) : sortirovka().map(renderTableItem)}
+                        {(sorted === false) ? people.map(renderTableItem) : sortirovka().map(renderTableItem)}
+                        {/* {(sorted === false) ? unsorted.map(renderTableItem) : sortirovka().map(renderTableItem)} */}
                     </tbody>
                 </table>
-                <button value='name' className = 'button_sort' onClick={handleChangeSortType}>
+                <button value='name' className='button_sort' onClick={handleChangeSortType}>
                     Sort By Name
                 </button>
-                <button value='surname' className = 'button_sort' onClick={handleChangeSortType}>
+                <button value='surname' className='button_sort' onClick={handleChangeSortType}>
                     Sort By Surname
                 </button>
-                <button value='phone' className = 'button_sort' onClick={handleChangeSortType}>
+                <button value='phone' className='button_sort' onClick={handleChangeSortType}>
                     Sort By Phone
                 </button>
-                <button value='age' className = 'button_sort' onClick={handleChangeSortType}>
+                <button value='age' className='button_sort' onClick={handleChangeSortType}>
                     Sort By Age
+                </button>
+                <button className='button_sort' onClick={handleUnsort}>
+                    Unsort
                 </button>
             </div>
 
