@@ -1,72 +1,39 @@
-import React, { useState } from 'react'
+import React from 'react'
 import '../styles/form.scss'
-// import '../styles/form.css'
-import { v4 as uuidv4 } from 'uuid';
-// import FormItem from '../FormItem/FormItem';
+import { submitForm, updateAge, updateName, updatePhone, updateSurname } from '../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
-
-const Form = ({ addPerson }) => {
-
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [phone, setPhone] = useState('');
-    const [age, setAge] = useState('');
-    const [emptyName, setEmptyName] = useState(true)
-    const [emptySurname, setEmptySurname] = useState(true)
-    const [emptyPhone, setEmptyPhone] = useState(true)
-    const [emptyAge, setEmptyAge] = useState(true)
-  
-
+const Form = () => {
+    const person = useSelector(state => ({
+        name : state.form.newName,
+        surname : state.form.newSurname,
+        phone : state.form.newPhone,
+        age : state.form.newAge
+    }))
+    const dispatch = useDispatch()
+    
+   
     const handleSetName = (e) => {
         const value = e.target.value.trim().replace(/[^A-Za-zА-Яа-я]/g, '')
-        setName(value)
-        if (e.target.value !== '') {
-            setEmptyName(false)
-        }else{
-            setEmptyName(true)
-        }
+        dispatch(updateName(value))
     }
     const handleSetSurname = (e) => {
         const value = e.target.value.trim().replace(/[^A-Za-zА-Яа-я]/g, '')
-        setSurname(value)
-        if (e.target.value !== '') {
-            setEmptySurname(false)
-        }else{
-            setEmptySurname(true)
-        }
+        dispatch(updateSurname(value))        
     }
     const handleSetPhone = (e) => {
         const value = e.target.value.trim().replace(/[\D]{1}/g, '')
-        setPhone(value)
-        if (e.target.value !== '') {
-            setEmptyPhone(false)
-        }else{
-            setEmptyPhone(true)
-        }
-
+        dispatch(updatePhone(value))
     }
     const handleSetAge = (e) => {
         const value = e.target.value.trim().replace(/[\D]{1}/g, '')
-        setAge(value)
-        if (e.target.value !== '') {
-            setEmptyAge(false)
-        }else{
-            setEmptyAge(true)
-        }
+        dispatch(updateAge(value))
     }
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!emptyName && !emptySurname && !emptyPhone && !emptyAge) {
-            addPerson({ name, surname, phone, age, id: uuidv4() });
-            setName('');
-            setSurname('');
-            setPhone('');
-            setAge('');
-            setEmptyName(true)
-            setEmptySurname(true)
-            setEmptyPhone(true)
-            setEmptyAge(true)
-        }
+        dispatch(submitForm())
+        
     }
     return (
         <div>
@@ -77,7 +44,7 @@ const Form = ({ addPerson }) => {
                         <input
                             name='name'
                             type='text'
-                            value={name}
+                            value = {person.name}
                             placeholder='ex: Pasha'
                             onChange={handleSetName}
                             maxLength="15"
@@ -87,9 +54,9 @@ const Form = ({ addPerson }) => {
                     <div className='field'>
                         <label>Surname:</label>
                         <input
-                            name='lastName'
+                            name='surname'
                             type='text'
-                            value={surname}
+                            value = {person.surname}
                             placeholder='ex: Karlin'
                             onChange={handleSetSurname}
                             maxLength="15"
@@ -100,7 +67,7 @@ const Form = ({ addPerson }) => {
                         <input
                             name='phone'
                             type='text'
-                            value={phone}
+                            value = {person.phone}
                             placeholder='ex: 380636074154'
                             onChange={handleSetPhone}
                             maxLength='12'
@@ -111,13 +78,13 @@ const Form = ({ addPerson }) => {
                         <input
                             name='age'
                             type='text'
-                            value={age}
+                            value = {person.age}
                             placeholder='ex: 20'
                             onChange={handleSetAge}
                             maxLength='2'
                         />
                     </div>
-                    <button type='submit' onClick={handleSubmit} disabled={false}>
+                    <button type='submit' className = "btn btn-primary" onClick={handleSubmit} disabled={false}>
                         Submit
                     </button>
                 </fieldset>

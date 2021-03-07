@@ -1,38 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { deletePerson } from '../redux/actions'
 
-let TableItem = ({ person, setPeople, people, removePerson }) => {
-    const { status, name, surname, phone, age, id } = person
-
-    const handleCheckBoxChange = () => {
-        const trueListOfPeople = people.map(itemPerson => {
-            if (itemPerson.id === id) {
-                return {
-                    ...itemPerson,
-                    status: !status
-                }
-            }
-            return itemPerson;
-        })
-        setPeople(trueListOfPeople)
+const TableItem = ({ name, surname, phone, age, personalId }) => {
+    // const people = useContext(state => state.form.people)
+    const [status, setStatus] = useState(false)
+    const dispatch = useDispatch()
+    const checkBoxHandler = () => {
+       setStatus(!status)
     }
-    const deletePerson = () => {
-        removePerson(id)
+    const deleteHandler = (e) => {
+        const currentID = personalId
+        dispatch(deletePerson(currentID) )    
+        console.log(currentID)   
     }
 
     return (
         <tr>
             <td>
-                <input type='checkbox'
-                    checked={status}
-                    onChange={handleCheckBoxChange}
-                />
+                <input type='checkbox' checked={status} onChange={checkBoxHandler} />
             </td>
             <td>{name}</td>
             <td>{surname}</td>
             <td>{phone}</td>
             <td>{age}</td>
             <td>
-                <button className='delete_button' disabled={!status} onClick={deletePerson}>Delete</button>
+                <button className='delete_button' disabled={status ? false : true} onClick={deleteHandler}>Delete</button>
             </td>
         </tr>
     )

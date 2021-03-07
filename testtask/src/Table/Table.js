@@ -1,39 +1,25 @@
 import React, { useState } from 'react'
-import Form from '../Form/Form'
+import { useSelector } from 'react-redux'
 import '../styles/table.css'
+import Form from '../Form/Form'
 import TableItem from '../TableItem/TableItem'
-import { v4 as uuidv4 } from 'uuid';
 
 const numberTypes = ['phone', 'age']
-
 const Table = () => {
-    const [people, setPeople] = useState(JSON.parse(localStorage.getItem('people')) || [])
+    const people = useSelector(state => state.form.people)
+    const [sorted, setSorted] = useState(false)
     const sortedArrayOfPeople = [...people]
-    const [sorted,setSorted] = useState(false)
     const [type, setType] = useState('')
-    const setToLocalStorage = (localStoragePeople) => {
-        localStorage.setItem('people', JSON.stringify(localStoragePeople))
-    }
-    const addPerson = ({ name, surname, phone, age, id }) => {
-        const listOfPeople = [...people, { name, surname, phone, age, id, status: false }]
-        setPeople(listOfPeople)
-        setToLocalStorage(listOfPeople);
-    }
-    const removePerson = (id) => {
-        const trueListOfPeople = people.filter(item => id !== item.id)
-        setPeople(trueListOfPeople);
-        setToLocalStorage(trueListOfPeople)
-    }
+
     const renderTableItem = (person) => {
         return (
             <TableItem
-                key={uuidv4()}
-                person={person}
-                setPeople={setPeople}
-                people={people}
-                removePerson={removePerson}
-            />
-        )
+                name={person.name}
+                surname={person.surname}
+                phone={person.phone}
+                age={person.age}
+                personalId={person.id}
+            />)
     }
 
     const sortirovka = () => {
@@ -46,24 +32,23 @@ const Table = () => {
                 if (aObj < bObj) return -1
                 return 0;
             }))
-        
+
     }
     const getTruthField = (isNumberType, object) => {
         return isNumberType ? +object[type] : object[type].toLowerCase()
     }
     const handleChangeSortType = (e) => {
-        setType(e.target.value);
+        setType(e.target.value)
         setSorted(true)
     }
     const handleUnsort = () => {
         setSorted(false)
     }
 
-
     return (
         <div className='table_form'>
             <div className='form_item'>
-                <Form addPerson={addPerson} />
+                <Form />
             </div>
             <div className='table_item'>
                 <table className='table_border'>
@@ -77,28 +62,28 @@ const Table = () => {
                             <th >Delete</th>
                         </tr>
                         {(sorted === false) ? people.map(renderTableItem) : sortirovka().map(renderTableItem)}
-                        {/* {(sorted === false) ? unsorted.map(renderTableItem) : sortirovka().map(renderTableItem)} */}
+
                     </tbody>
                 </table>
-                <button value='name' className='button_sort' onClick={handleChangeSortType}>
+                <button value='name' type="button" className="btn btn-secondary" onClick={handleChangeSortType}>
                     Sort By Name
                 </button>
-                <button value='surname' className='button_sort' onClick={handleChangeSortType}>
+                <button value='surname' type="button" className="btn btn-secondary" onClick={handleChangeSortType}>
                     Sort By Surname
                 </button>
-                <button value='phone' className='button_sort' onClick={handleChangeSortType}>
+                <button value='phone' type="button" className="btn btn-secondary" onClick={handleChangeSortType}>
                     Sort By Phone
                 </button>
-                <button value='age' className='button_sort' onClick={handleChangeSortType}>
+                <button value='age' type="button" className="btn btn-secondary" onClick={handleChangeSortType}>
                     Sort By Age
                 </button>
-                <button className='button_sort' onClick={handleUnsort}>
+                <button type="button" className="btn btn-secondary" onClick={handleUnsort}>
                     Unsort
                 </button>
             </div>
-
         </div>
     )
 }
+
 
 export default Table;
